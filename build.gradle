@@ -1,0 +1,21 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile('org.postgresql:postgresql:9.4.+')
+    compile('org.hibernate:hibernate-core:4.3.+')
+    testCompile('junit:junit:4.12')
+    testCompile('org.mockito:mockito-core:1.+')
+}
+
+jar {
+    baseName = 'hibernate-postgres-extended-dialect'
+    version = '0.1.0'
+}
