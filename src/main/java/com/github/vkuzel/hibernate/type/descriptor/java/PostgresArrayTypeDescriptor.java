@@ -111,6 +111,7 @@ public class PostgresArrayTypeDescriptor extends AbstractTypeDescriptor<List> {
 
     @Override
     public <X> List wrap(X value, WrapperOptions options) {
+        // TODO Move ifnull here.
         if (Array.class.isInstance(value)) {
             Array sqlArray = (Array) value;
             try {

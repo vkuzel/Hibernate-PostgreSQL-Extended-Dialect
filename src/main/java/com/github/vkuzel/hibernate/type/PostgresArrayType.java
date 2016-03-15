@@ -21,6 +21,6 @@ public class PostgresArrayType extends AbstractSingleColumnStandardBasicType<Lis
 
     @Override
     public String getName() {
-        return "pg-array";
+        return "pg_array";
     }
 }

@@ -3,10 +3,11 @@
 ## Features
 
 * [Partial support of mapping PostgreSQL arrays to Lists.](#postgresql-arrays)
+* Java 8 LocalDate type.
 
 TODO
 * Support of JSON type.
-* Java 8 date and time types (LocalDate instead of java.sql.Date, ...)
+* Java 8 LocalTime and LocalDateTime types.
 
 ## Getting started
 
