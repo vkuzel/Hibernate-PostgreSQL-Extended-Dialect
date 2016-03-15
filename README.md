@@ -11,7 +11,7 @@ TODO
 
 ## Getting started
 
-Download the library [hibernate-postgres-extended-dialect-0.1.0.jar](build/libs/hibernate-postgres-extended-dialect-0.1.0.jar) and place it into your project. Library depends on `org.postgresql:postgresql:9.4.+` and `org.hibernate:hibernate-core:4.3.+` projects which are part of Spring Boot 1.3.3.
+Download the library [hibernate-postgres-extended-dialect-0.2.0.jar](build/libs/hibernate-postgres-extended-dialect-0.2.0.jar) and place it into your project. Library depends on `org.postgresql:postgresql:9.4.+` and `org.hibernate:hibernate-core:4.3.+` projects which are part of Spring Boot 1.3.3.
 
 Configure the Hibernate to use new dialect. Place following line into your `application.properties` file. This is configuration for Spring JPA.
 ```
