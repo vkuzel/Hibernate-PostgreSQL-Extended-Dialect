@@ -76,7 +76,7 @@ Create an entity.
       // getters and setters omitted
     }
 ```
-And then use repository to persist it. Or you call database directly.
+And then use repository to persist it. Or call database by query.
 ```java
     public interface TestEntityRepository extends JpaRepository<TestEntity, Long> {
       @Query(value = "SELECT flat_array FROM test_entity LIMIT 1", nativeQuery = true)
