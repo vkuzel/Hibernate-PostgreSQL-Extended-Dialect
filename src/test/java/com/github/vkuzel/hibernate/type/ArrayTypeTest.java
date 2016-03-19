@@ -1,10 +1,8 @@
 package com.github.vkuzel.hibernate.type;
 
-import com.github.vkuzel.hibernate.type.descriptor.java.PostgresArrayTypeDescriptor;
+import com.github.vkuzel.hibernate.type.descriptor.java.ArrayTypeDescriptor;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.mockito.Mockito.*;
 
 import java.sql.Array;
 import java.sql.Connection;
@@ -13,22 +11,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PostgresArrayTypeTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class ArrayTypeTest {
 
     @Test
     public void testUnwrapArray() {
-        PostgresArrayTypeDescriptorMock descriptor = new PostgresArrayTypeDescriptorMock();
+        ArrayTypeDescriptorMock descriptor = new ArrayTypeDescriptorMock();
 
         Object array1 = descriptor.unwrap(null, Collections.emptyList());
-        Assert.assertTrue(PostgresArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array1));
+        Assert.assertTrue(ArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array1));
         Assert.assertEquals("{}", array1.toString());
 
         Object array2 = descriptor.unwrap(null, listOf(Collections.emptyList(), Collections.emptyList()));
-        Assert.assertTrue(PostgresArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array2));
+        Assert.assertTrue(ArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array2));
         Assert.assertEquals("{}", array2.toString());
 
         Object array3 = descriptor.unwrap(null, listOf(null, null));
-        Assert.assertTrue(PostgresArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array3));
+        Assert.assertTrue(ArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array3));
         Assert.assertEquals("{null,null}", array3.toString());
 
         ArrayDescription array4 = (ArrayDescription) descriptor.unwrap(null, listOf(1, 2, null));
@@ -54,7 +55,7 @@ public class PostgresArrayTypeTest {
 
     @Test
     public void testWrapArray() throws SQLException {
-        PostgresArrayTypeDescriptorMock descriptor = new PostgresArrayTypeDescriptorMock();
+        ArrayTypeDescriptorMock descriptor = new ArrayTypeDescriptorMock();
 
         Array array1 = mock(Array.class);
         when(array1.getArray()).thenReturn(new Object[]{});
@@ -102,7 +103,7 @@ public class PostgresArrayTypeTest {
         return list;
     }
 
-    private static class PostgresArrayTypeDescriptorMock extends PostgresArrayTypeDescriptor {
+    private static class ArrayTypeDescriptorMock extends ArrayTypeDescriptor {
         @Override
         protected Object createArrayOf(Connection connection, String typeName, Object[] elements) throws SQLException {
             return new ArrayDescription(typeName, elements);

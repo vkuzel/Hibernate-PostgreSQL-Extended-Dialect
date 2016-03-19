@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PostgresArrayTypeDescriptor extends AbstractTypeDescriptor<List> {
+public class ArrayTypeDescriptor extends AbstractTypeDescriptor<List> {
 
-    public static final PostgresArrayTypeDescriptor INSTANCE = new PostgresArrayTypeDescriptor();
+    public static final ArrayTypeDescriptor INSTANCE = new ArrayTypeDescriptor();
 
-    public PostgresArrayTypeDescriptor() {
+    public ArrayTypeDescriptor() {
         super(List.class);
     }
 
@@ -34,6 +34,9 @@ public class PostgresArrayTypeDescriptor extends AbstractTypeDescriptor<List> {
     }
 
     public Object unwrap(Connection connection, List list) {
+        if (list == null) {
+            return null;
+        }
         return createPgArray(connection, list);
     }
 
@@ -111,8 +114,9 @@ public class PostgresArrayTypeDescriptor extends AbstractTypeDescriptor<List> {
 
     @Override
     public <X> List wrap(X value, WrapperOptions options) {
-        // TODO Move ifnull here.
-        if (Array.class.isInstance(value)) {
+        if (value == null) {
+            return null;
+        } else if (Array.class.isInstance(value)) {
             Array sqlArray = (Array) value;
             try {
                 Object[] array = (Object[]) sqlArray.getArray();
@@ -150,8 +154,8 @@ public class PostgresArrayTypeDescriptor extends AbstractTypeDescriptor<List> {
             StringBuilder builder = new StringBuilder();
             builder.append('{');
             if (!list.isEmpty()) {
-                // All elements of unknown type array has to be the same so there
-                // is no need to check other elements than first one.
+                // All elements of unknown type array has to be the same. So
+                // there is no need to check elements except for first one.
                 Object firstElement = list.get(0);
                 if (firstElement == null) {
                     builder.append("null");

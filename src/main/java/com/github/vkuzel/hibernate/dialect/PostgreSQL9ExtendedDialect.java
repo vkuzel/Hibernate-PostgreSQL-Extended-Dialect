@@ -11,7 +11,7 @@ public class PostgreSQL9ExtendedDialect extends PostgreSQL9Dialect {
 
     public PostgreSQL9ExtendedDialect() {
         super();
-        registerHibernateType(Types.ARRAY, PostgresArrayType.INSTANCE.getName());
+        registerHibernateType(Types.ARRAY, ArrayType.INSTANCE.getName());
         registerHibernateType(Types.DATE, LocalDateType.INSTANCE.getName());
         registerHibernateType(Types.TIME, LocalTimeType.INSTANCE.getName());
         registerHibernateType(Types.TIMESTAMP, LocalDateTimeType.INSTANCE.getName());
@@ -21,7 +21,7 @@ public class PostgreSQL9ExtendedDialect extends PostgreSQL9Dialect {
     @Override
     public void contributeTypes(TypeContributions typeContributions, ServiceRegistry serviceRegistry) {
         super.contributeTypes(typeContributions, serviceRegistry);
-        typeContributions.contributeType(PostgresArrayType.INSTANCE);
+        typeContributions.contributeType(ArrayType.INSTANCE);
         typeContributions.contributeType(LocalDateType.INSTANCE);
         typeContributions.contributeType(LocalTimeType.INSTANCE);
         typeContributions.contributeType(LocalDateTimeType.INSTANCE);

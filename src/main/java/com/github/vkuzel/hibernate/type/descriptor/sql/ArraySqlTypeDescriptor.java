@@ -1,6 +1,6 @@
 package com.github.vkuzel.hibernate.type.descriptor.sql;
 
-import com.github.vkuzel.hibernate.type.descriptor.java.PostgresArrayTypeDescriptor;
+import com.github.vkuzel.hibernate.type.descriptor.java.ArrayTypeDescriptor;
 import org.hibernate.type.descriptor.ValueBinder;
 import org.hibernate.type.descriptor.ValueExtractor;
 import org.hibernate.type.descriptor.WrapperOptions;
@@ -12,9 +12,9 @@ import org.hibernate.type.descriptor.sql.SqlTypeDescriptor;
 import java.sql.*;
 import java.util.List;
 
-public class PostgresArraySqlTypeDescriptor implements SqlTypeDescriptor {
+public class ArraySqlTypeDescriptor implements SqlTypeDescriptor {
 
-    public static final PostgresArraySqlTypeDescriptor INSTANCE = new PostgresArraySqlTypeDescriptor();
+    public static final ArraySqlTypeDescriptor INSTANCE = new ArraySqlTypeDescriptor();
 
     @Override
     public int getSqlType() {
@@ -22,7 +22,7 @@ public class PostgresArraySqlTypeDescriptor implements SqlTypeDescriptor {
     }
 
     private int getSqlType(Object array) {
-        if (PostgresArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array)) {
+        if (ArrayTypeDescriptor.PgUnknownTypeArray.class.isInstance(array)) {
             return Types.OTHER;
         } else {
             return getSqlType();
@@ -39,11 +39,11 @@ public class PostgresArraySqlTypeDescriptor implements SqlTypeDescriptor {
         return new BasicBinder<X>(javaTypeDescriptor, this) {
             @Override
             protected void doBind(PreparedStatement st, X value, int index, WrapperOptions options) throws SQLException {
-                if (value == null) {
-                    st.setNull(index, getSqlType());
-                } else if (PostgresArrayTypeDescriptor.class.isInstance(javaTypeDescriptor)) {
-                    Object array = ((PostgresArrayTypeDescriptor) javaTypeDescriptor).unwrap(st.getConnection(), (List) value);
+                if (ArrayTypeDescriptor.class.isInstance(javaTypeDescriptor)) {
+                    Object array = ((ArrayTypeDescriptor) javaTypeDescriptor).unwrap(st.getConnection(), (List) value);
                     st.setObject(index, array, getSqlType(array));
+                } else {
+                    throw new IllegalArgumentException("Unknown descriptor! " + javaTypeDescriptor.getClass().getTypeName());
                 }
             }
         };
@@ -68,9 +68,6 @@ public class PostgresArraySqlTypeDescriptor implements SqlTypeDescriptor {
             }
 
             private X wrap(Object value, WrapperOptions options) {
-                if (value == null) { // TODO Move this to javaTypeDescriptor...
-                    return null;
-                }
                 return javaTypeDescriptor.wrap(value, options);
             }
         };

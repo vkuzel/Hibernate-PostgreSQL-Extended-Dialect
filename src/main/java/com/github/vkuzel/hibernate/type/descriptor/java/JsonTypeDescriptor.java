@@ -33,7 +33,7 @@ public class JsonTypeDescriptor extends AbstractTypeDescriptor<Map> {
         try {
             return JSON_MAPPER.readValue(string, Map.class);
         } catch (IOException e) {
-            throw new IllegalArgumentException("JSON cannot be parsed! Data: " + string, e);
+            throw new IllegalArgumentException("JSON cannot be parsed! " + string, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class JsonTypeDescriptor extends AbstractTypeDescriptor<Map> {
                 pgObject.setType("json");
                 return (X) pgObject;
             } catch (SQLException e) {
-                throw new IllegalArgumentException("JSON cannot be set to PGObject! Data: " + json, e);
+                throw new IllegalArgumentException("JSON cannot be set to PGObject! " + json, e);
             }
         }
         throw unknownUnwrap(type);
