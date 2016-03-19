@@ -1,9 +1,4 @@
 .idea
 .gradle
 *.iml
-build/classes
-build/dependency
-build/reports
-build/resources
-build/test-results
-build/tmp
+build
