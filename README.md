@@ -1,4 +1,6 @@
-# Hibernate Postgres Extended Dialect
+# Extended PostgreSQL dialect for Hibernate
+
+[![](https://jitpack.io/v/vkuzel/Hibernate-PostgreSQL-Extended-Dialect.svg)](https://jitpack.io/#vkuzel/Hibernate-PostgreSQL-Extended-Dialect)
 
 ## Features
 
@@ -8,12 +10,35 @@
 
 ## Getting started
 
-Download the library [hibernate-postgres-extended-dialect-0.4.0.jar](build/libs/hibernate-postgres-extended-dialect-0.4.0.jar) and place it into your project.
+Add maven dependency to your project.
 
-Make sure all dependent libraries are available on classpath.
-* `org.postgresql:postgresql:9.4.+`
-* `org.hibernate:hibernate-core:4.3.+`
-* `com.fasterxml.jackson.core:jackson-databind:2.6.+`
+**Gradle**
+````groovy
+    allprojects {
+        repositories {
+            maven { url "https://jitpack.io" }
+        }
+    }
+
+    dependencies {
+            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Dialect:v0.4.0'
+    }
+````
+**Maven**
+````xml
+    <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
+    <dependency>
+	    <groupId>com.github.vkuzel</groupId>
+	    <artifactId>Hibernate-PostgreSQL-Extended-Dialect</artifactId>
+	    <version>v0.4.0</version>
+	</dependency>
+````
 
 Configure the Hibernate to use new dialect. Place following line into your `application.properties` file. This is configuration for Spring JPA.
 ```
@@ -22,10 +47,10 @@ spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9Exte
 
 ## Eamples
 
-* Create a database table.
+Create a database table.
 
-  ```sql
-  CREATE TABLE test_entity (
+```sql
+    CREATE TABLE test_entity (
       id                     BIGSERIAL,
       flat_array             INT [],
       multidimensional_array INT [] [],
@@ -33,13 +58,12 @@ spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9Exte
       time                   TIME,
       date_time              TIMESTAMP,
       json                   JSON
-  );
-  ```
-* Create an entity.
-
-  ```java
-  @Entity
-  public class TestEntity {
+    );
+```
+Create an entity.
+```java
+    @Entity
+    public class TestEntity {
       @Id
       private long id;
       private List<Integer> flatArray;
@@ -50,16 +74,15 @@ spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9Exte
       private Map<String, Object> json;
 
       // getters and setters omitted
-  }
-  ```
-* And then use repository to persist it. Or you call database directly.
-
-  ```java
-  public interface TestEntityRepository extends JpaRepository<TestEntity, Long> {
+    }
+```
+And then use repository to persist it. Or you call database directly.
+```java
+    public interface TestEntityRepository extends JpaRepository<TestEntity, Long> {
       @Query(value = "SELECT flat_array FROM test_entity LIMIT 1", nativeQuery = true)
       List<Integer> array();
-  }
-  ```
+    }
+```
 
 ## Implementation details
 
