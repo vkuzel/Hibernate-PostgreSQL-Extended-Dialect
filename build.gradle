@@ -11,11 +11,12 @@ repositories {
 dependencies {
     compile('org.postgresql:postgresql:9.4.+')
     compile('org.hibernate:hibernate-core:4.3.+')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.6.+')
     testCompile('junit:junit:4.12')
     testCompile('org.mockito:mockito-core:1.+')
 }
 
 jar {
     baseName = 'hibernate-postgres-extended-dialect'
-    version = '0.3.0'
+    version = '0.4.0'
 }
