@@ -3,12 +3,12 @@
 ## Features
 
 * [Partial support of mapping PostgreSQL arrays to Lists.](#postgresql-arrays)
-* Mapping of date/time types to Java 8 LocalDate, LocalTime and LocalDateTime types.
-* Mapping of JSON to Map.
+* Java 8 LocalDate, LocalTime and LocalDateTime to date/time types mapping.
+* [Mapping of JSON type to Map.](#json)
 
 ## Getting started
 
-Download the library [hibernate-postgres-extended-dialect-0.3.0.jar](build/libs/hibernate-postgres-extended-dialect-0.3.0.jar) and place it into your project.
+Download the library [hibernate-postgres-extended-dialect-0.4.0.jar](build/libs/hibernate-postgres-extended-dialect-0.4.0.jar) and place it into your project.
 
 Make sure all dependent libraries are available on classpath.
 * `org.postgresql:postgresql:9.4.+`
@@ -26,9 +26,13 @@ spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9Exte
 
   ```sql
   CREATE TABLE test_entity (
-    id BIGSERIAL,
-    arr INT[],
-    multi_arr INT[][]
+      id                     BIGSERIAL,
+      flat_array             INT [],
+      multidimensional_array INT [] [],
+      date                   DATE,
+      time                   TIME,
+      date_time              TIMESTAMP,
+      json                   JSON
   );
   ```
 * Create an entity.
@@ -38,17 +42,21 @@ spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9Exte
   public class TestEntity {
       @Id
       private long id;
-      private List<Integer> arr;
-      private List<List<Integer>> multiArr;
+      private List<Integer> flatArray;
+      private List<List<Integer>> multidimensionalArray;
+      private LocalDate date;
+      private LocalTime time;
+      private LocalDateTime dateTime;
+      private Map<String, Object> json;
 
       // getters and setters omitted
   }
   ```
-* And then use repository to persist it or call database directly.
+* And then use repository to persist it. Or you call database directly.
 
   ```java
   public interface TestEntityRepository extends JpaRepository<TestEntity, Long> {
-      @Query(value = "SELECT arr FROM test_entity LIMIT 1", nativeQuery = true)
+      @Query(value = "SELECT flat_array FROM test_entity LIMIT 1", nativeQuery = true)
       List<Integer> array();
   }
   ```
@@ -59,4 +67,8 @@ spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9Exte
 
 There is only partial support of PostgreSQL arrays implemented by this dialect. This means that you can use array (List) types in your entities or queries to select or persist data but Hibernate won't be able to create tables with array columns.
 
-List element types are not available at runtime. To find out of what type elements are this library iterates over the list and actually checks it's elements types. Unfortunately this is not a good solution when tables are created. Check out [ArrayTypeDescriptor.createPgArray method](src/main/java/com/github/vkuzel/hibernate/type/descriptor/java/PostgresArrayTypeDescriptor.java#L40) for more details.
+List element types are not available at runtime. To find out of what type elements are this library iterates over the list and actually checks it's elements types. Unfortunately this is not a good solution when tables are created. Check out [ArrayTypeDescriptor.createPgArray](src/main/java/com/github/vkuzel/hibernate/type/descriptor/java/PostgresArrayTypeDescriptor.java#L40) method for more details.
+
+### JSON
+
+Mapping of Java type `Map<String, Object>` to JSON columns is done by [Jackson library](http://wiki.fasterxml.com/JacksonHome). Right now dialect does not support `jsonb` or mapping to Java objects. Possibly this will be added in future.
