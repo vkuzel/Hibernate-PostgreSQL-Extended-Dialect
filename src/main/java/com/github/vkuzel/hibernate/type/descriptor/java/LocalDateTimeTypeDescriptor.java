@@ -43,7 +43,7 @@ public class LocalDateTimeTypeDescriptor extends AbstractTypeDescriptor<LocalDat
         if (value == null) {
             return null;
         }
-        if (Date.class.isInstance(value)) {
+        if (Timestamp.class.isInstance(value)) {
             return ((Timestamp) value).toLocalDateTime();
         }
         throw unknownWrap(value.getClass());

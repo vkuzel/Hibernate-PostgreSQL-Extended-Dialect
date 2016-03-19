@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class LocalTimeTypeDescriptor extends AbstractTypeDescriptor<LocalTime> {
 
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
-    public static final LocalDateTypeDescriptor INSTANCE = new LocalDateTypeDescriptor();
+    public static final LocalTimeTypeDescriptor INSTANCE = new LocalTimeTypeDescriptor();
 
     protected LocalTimeTypeDescriptor() {
         super(LocalTime.class);

@@ -5,8 +5,9 @@ import com.github.vkuzel.hibernate.type.descriptor.sql.LocalTimeSqlTypeDescripto
 import org.hibernate.type.AbstractSingleColumnStandardBasicType;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-public class LocalTimeType extends AbstractSingleColumnStandardBasicType<LocalDate> {
+public class LocalTimeType extends AbstractSingleColumnStandardBasicType<LocalTime> {
 
     public static final LocalTimeType INSTANCE = new LocalTimeType();
 
