@@ -10,7 +10,7 @@
 
 ## Getting started
 
-Add maven dependency to your project.
+Add dependency to your project.
 
 **Gradle**
 ````groovy
