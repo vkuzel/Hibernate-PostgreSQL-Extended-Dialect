@@ -25,7 +25,7 @@ Just add a dependency to your project and that is all.
     }
 
     dependencies {
-            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Types:v0.5.0'
+            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Types:0.5.0'
     }
 ````
 **Maven**
@@ -40,7 +40,7 @@ Just add a dependency to your project and that is all.
     <dependency>
 	    <groupId>com.github.vkuzel</groupId>
 	    <artifactId>Hibernate-PostgreSQL-Extended-Types</artifactId>
-	    <version>v0.5.0</version>
+	    <version>0.5.0</version>
 	</dependency>
 ````
 
