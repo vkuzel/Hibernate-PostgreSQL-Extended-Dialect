@@ -1,6 +1,6 @@
 # Extended PostgreSQL types for Hibernate 5.0
 
-[![](https://jitpack.io/v/vkuzel/Hibernate-PostgreSQL-Extended-Dialect.svg)](https://jitpack.io/#vkuzel/Hibernate-PostgreSQL-Extended-Dialect)
+[![](https://jitpack.io/v/vkuzel/Hibernate-PostgreSQL-Extended-Types.svg)](https://jitpack.io/#vkuzel/Hibernate-PostgreSQL-Extended-Types)
 
 ## Features
 
@@ -25,7 +25,7 @@ Just add a dependency to your project and that is all.
     }
 
     dependencies {
-            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Dialect:v0.5.0'
+            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Types:v0.5.0'
     }
 ````
 **Maven**
@@ -39,7 +39,7 @@ Just add a dependency to your project and that is all.
 
     <dependency>
 	    <groupId>com.github.vkuzel</groupId>
-	    <artifactId>Hibernate-PostgreSQL-Extended-Dialect</artifactId>
+	    <artifactId>Hibernate-PostgreSQL-Extended-Types</artifactId>
 	    <version>v0.5.0</version>
 	</dependency>
 ````
