@@ -39,9 +39,19 @@ public class ArraySqlTypeDescriptor implements SqlTypeDescriptor {
         return new BasicBinder<X>(javaTypeDescriptor, this) {
             @Override
             protected void doBind(PreparedStatement st, X value, int index, WrapperOptions options) throws SQLException {
+                Object array = unwrap(st.getConnection(), value);
+                st.setObject(index, array, getSqlType(array));
+            }
+
+            @Override
+            protected void doBind(CallableStatement st, X value, String name, WrapperOptions options) throws SQLException {
+                Object array = unwrap(st.getConnection(), value);
+                st.setObject(name, array, getSqlType(array));
+            }
+
+            private Object unwrap(Connection connection, X value) {
                 if (ArrayTypeDescriptor.class.isInstance(javaTypeDescriptor)) {
-                    Object array = ((ArrayTypeDescriptor) javaTypeDescriptor).unwrap(st.getConnection(), (List) value);
-                    st.setObject(index, array, getSqlType(array));
+                    return ((ArrayTypeDescriptor) javaTypeDescriptor).unwrap(connection, (List) value);
                 } else {
                     throw new IllegalArgumentException("Unknown descriptor! " + javaTypeDescriptor.getClass().getTypeName());
                 }

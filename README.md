@@ -1,16 +1,20 @@
-# Extended PostgreSQL dialect for Hibernate
+# Extended PostgreSQL types for Hibernate 5.0
 
 [![](https://jitpack.io/v/vkuzel/Hibernate-PostgreSQL-Extended-Dialect.svg)](https://jitpack.io/#vkuzel/Hibernate-PostgreSQL-Extended-Dialect)
 
 ## Features
 
 * [Partial support of mapping PostgreSQL arrays to Lists.](#postgresql-arrays)
-* Java 8 LocalDate, LocalTime and LocalDateTime to date/time types mapping.
 * [Mapping of JSON type to Map.](#json)
+* Java 8 time API is supported by [hibernate-java8](https://repo1.maven.org/maven2/org/hibernate/hibernate-java8/) package and since [Hibernate 5.2](https://github.com/hibernate/hibernate-orm/releases/tag/5.2.0/) by hibernate-core.
+
+When this project started I intended to create custom dialect for some ProstgreSQL types that are not included in standard Hibernate library.
+Then I found that making this as a library with set of custom types is better idea.
+So please use this project more like an example of adding library with custom types than "final product".
 
 ## Getting started
 
-Add dependency to your project.
+Just add a dependency to your project and that is all.
 
 **Gradle**
 ````groovy
@@ -21,7 +25,7 @@ Add dependency to your project.
     }
 
     dependencies {
-            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Dialect:v0.4.0'
+            compile 'com.github.vkuzel:Hibernate-PostgreSQL-Extended-Dialect:v0.5.0'
     }
 ````
 **Maven**
@@ -36,14 +40,9 @@ Add dependency to your project.
     <dependency>
 	    <groupId>com.github.vkuzel</groupId>
 	    <artifactId>Hibernate-PostgreSQL-Extended-Dialect</artifactId>
-	    <version>v0.4.0</version>
+	    <version>v0.5.0</version>
 	</dependency>
 ````
-
-Configure the Hibernate to use new dialect. Place following line into your `application.properties` file. This is configuration for Spring JPA.
-```
-spring.jpa.database-platform=com.github.vkuzel.hibernate.dialect.PostgreSQL9ExtendedDialect
-```
 
 ## Eamples
 
@@ -76,7 +75,7 @@ Create an entity.
       // getters and setters omitted
     }
 ```
-And then use repository to persist it. Or call database by query.
+And then use repository to persist it. Or call a query.
 ```java
     public interface TestEntityRepository extends JpaRepository<TestEntity, Long> {
       @Query(value = "SELECT flat_array FROM test_entity LIMIT 1", nativeQuery = true)
@@ -88,10 +87,10 @@ And then use repository to persist it. Or call database by query.
 
 ### PostgreSQL arrays
 
-There is only partial support of PostgreSQL arrays implemented by this dialect. This means that you can use array (List) types in your entities or queries to select or persist data but Hibernate won't be able to create tables with array columns.
+There is only partial support of PostgreSQL arrays implemented by this library. This means that you can use array (List) types in your entities or queries to select or persist data but Hibernate won't be able to create tables with array columns.
 
-List element types are not available at runtime. To find out of what type elements are this library iterates over the list and actually checks it's elements types. Unfortunately this is not a good solution when tables are created. Check out [ArrayTypeDescriptor.createPgArray](src/main/java/com/github/vkuzel/hibernate/type/descriptor/java/PostgresArrayTypeDescriptor.java#L40) method for more details.
+It's because list element types are not available at a runtime. To find out of what type of elements list hold library has to iterate over the list and checks it's elements. Unfortunately this is not a good solution when tables are created. Check out [ArrayTypeDescriptor.createPgArray](src/main/java/com/github/vkuzel/hibernate/type/descriptor/java/PostgresArrayTypeDescriptor.java#L40) method for more details.
 
 ### JSON
 
-Mapping of Java type `Map<String, Object>` to JSON columns is done by [Jackson library](http://wiki.fasterxml.com/JacksonHome). Right now dialect does not support `jsonb` or mapping to Java objects. Possibly this will be added in future.
+Mapping of Java type `Map<String, Object>` to JSON columns is done by [Jackson library](http://wiki.fasterxml.com/JacksonHome). Right now project does not support `jsonb` or mapping to Java objects. Possibly this will be added in future.
